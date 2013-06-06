@@ -10,7 +10,7 @@ Gem::Specification.new do |gem|
   gem.email         = ['johno@jsmf.net']
   gem.description   = 'Simple wrapper for elasticsearch'
   gem.summary       = 'Simple wrapper for elasticsearch.'
-  gem.homepage      = '...'
+  gem.homepage      = 'http://github.com/minio-sk/es'
 
   gem.files         = `git ls-files`.split($/)
   gem.executables   = gem.files.grep(%r{^bin/}).map{ |f| File.basename(f) }
