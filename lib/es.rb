@@ -1,5 +1,6 @@
 require 'es/version'
-require 'es/client'
+require 'es/connection'
+require 'es/raw_client'
 
 module ES
   def self.new(*args) # faux constructor
