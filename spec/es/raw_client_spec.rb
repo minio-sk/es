@@ -50,7 +50,7 @@ describe ES::RawClient do
     it 'sends POST to connection' do
       connection.should_receive(:request).with(:post, 'index/_bulk', data).and_return(response)
 
-      subject.bulk(data, 'index').should == response
+      subject.bulk('index', data).should == response
     end
   end
 end

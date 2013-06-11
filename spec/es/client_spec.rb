@@ -1,19 +1,47 @@
-require 'es/client'
 require 'es/raw_client'
+require 'es/client'
+require 'oj'
 
 describe ES::Client do
-  let(:dumper) { double(:Dumper) }
   let(:client) { double(:Client) }
-  subject { described_class.new(dumper: dumper, client: client) }
+  subject { described_class.new(client: client) }
+  let(:raw_response) { '{}' }
+  let(:response) { {} }
 
-  it 'passes serialized data to client' do
-    data = {}
-    serialized = 'serialized'
-    response = :response
-    dumper.should_receive(:dump).with(data).and_return(serialized)
+  it 'serializes data for .create_index' do
+    client.should_receive(:create_index).with('index/1', '[1,2,3]').and_return(raw_response)
 
-    client.should_receive(:index).with('index/1', serialized).and_return(response)
+    subject.create_index('index/1', [1,2,3]).should == response
+  end
 
-    subject.index('index/1', data).should == response
+  it 'serializes data for .delete_index' do
+    client.should_receive(:delete_index).with('index/1').and_return(raw_response)
+
+    subject.delete_index('index/1').should == response
+  end
+
+  it 'serializes data for .bulk' do
+    requests = [1, 2, 3]
+    client.should_receive(:bulk).with("1\n2\n3", 'an_index').and_return(raw_response)
+
+    subject.bulk(requests, 'an_index').should == response
+  end
+
+  it 'serializes data for .index' do
+    client.should_receive(:index).with('index/1', '[1,2,3]').and_return(raw_response)
+
+    subject.index('index/1', [1,2,3]).should == response
+  end
+
+  it 'serializes data for .get' do
+    client.should_receive(:get).with('index/1').and_return(raw_response)
+
+    subject.get('index/1').should == response
+  end
+
+  it 'serializes data for .search' do
+    client.should_receive(:search).with('index/1', '[1,2,3]').and_return(raw_response)
+
+    subject.search('index/1', [1,2,3]).should == response
   end
 end

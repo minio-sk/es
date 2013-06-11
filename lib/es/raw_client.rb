@@ -4,7 +4,6 @@ module ES
       @connection = opts[:connection] || begin
         host = opts[:host] || 'http://localhost:9200'
         driver = opts[:driver] || Curl
-
         Connection.new(host, driver)
       end
     end
@@ -29,7 +28,7 @@ module ES
       @connection.request(:post, action_path(path, :search), query)
     end
 
-    def bulk(requests, path = nil)
+    def bulk(path, requests)
       @connection.request(:post, action_path(path, :bulk), requests)
     end
 
