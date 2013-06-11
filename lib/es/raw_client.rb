@@ -3,7 +3,7 @@ module ES
     def initialize(opts = {})
       @connection = opts[:connection] || begin
         host = opts[:host] || 'http://localhost:9200'
-        driver = opts[:driver] || Curl
+        driver = opts[:driver] || Curl::Easy
         Connection.new(host, driver)
       end
     end
