@@ -28,6 +28,10 @@ module ES
       @connection.request(:post, action_path(path, :search), query)
     end
 
+    def update(path, data)
+      @connection.request(:post, action_path(path, :update), data)
+    end
+
     def bulk(path, requests)
       @connection.request(:post, action_path(path, :bulk), requests)
     end

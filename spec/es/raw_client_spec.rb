@@ -53,4 +53,12 @@ describe ES::RawClient do
       subject.bulk('index', data).should == response
     end
   end
+
+  context '.update' do
+    it 'sends POST to connection' do
+      connection.should_receive(:request).with(:post, 'index/1/_update', data).and_return(response)
+
+      subject.update('index/1', data).should == response
+    end
+  end
 end

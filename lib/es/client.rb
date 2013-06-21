@@ -35,6 +35,12 @@ module ES
       @dumper.load(response)
     end
 
+    def update(path, data)
+      serialized = @dumper.dump(data)
+      response = @client.update(path, serialized)
+      @dumper.load(response)
+    end
+
     def create_index(path, data)
       serialized = @dumper.dump(data)
       response = @client.create_index(path, serialized)

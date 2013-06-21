@@ -44,4 +44,10 @@ describe ES::Client do
 
     subject.search('index/1', [1,2,3]).should == response
   end
+
+  it 'serializes data for .update' do
+    client.should_receive(:update).with('index/1', '[1,2,3]').and_return(raw_response)
+
+    subject.update('index/1', [1,2,3]).should == response
+  end
 end
