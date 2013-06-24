@@ -22,7 +22,7 @@ describe ES::Client do
 
   it 'serializes data for .bulk' do
     requests = [1, 2, 3]
-    client.should_receive(:bulk).with("1\n2\n3", 'an_index').and_return(raw_response)
+    client.should_receive(:bulk).with("1\n2\n3\n", 'an_index').and_return(raw_response)
 
     subject.bulk(requests, 'an_index').should == response
   end

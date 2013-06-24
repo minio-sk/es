@@ -10,8 +10,8 @@ module ES
 
     def bulk(requests, path = nil)
       serialized = requests.map do |r|
-        @dumper.dump(r)
-      end.join("\n")
+        @dumper.dump(r) + "\n"
+      end.join('')
 
       response = @client.bulk(serialized, path)
 
