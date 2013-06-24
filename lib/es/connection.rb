@@ -29,7 +29,7 @@ module ES
         when :post
           @driver.http_post(url, data)
         when :delete
-          @driver.http_post(url)
+          @driver.http_delete(url)
       end
     end
   end

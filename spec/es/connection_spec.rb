@@ -27,7 +27,7 @@ describe ES::Connection do
   end
 
   it 'sends delete request with url to driver' do
-    driver.should_receive(:http_post).with('http://localhost:9200/index').and_return(response)
+    driver.should_receive(:http_delete).with('http://localhost:9200/index').and_return(response)
 
     subject.request(:delete, 'index').should == response_body
   end
