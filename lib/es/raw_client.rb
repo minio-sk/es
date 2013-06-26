@@ -32,13 +32,13 @@ module ES
       @connection.request(:post, action_path(path, :update), data)
     end
 
-    def bulk(path, requests)
+    def bulk(requests, path = nil)
       @connection.request(:post, action_path(path, :bulk), requests)
     end
 
     private
     def action_path(path, action)
-      "#{path}/_#{action}"
+      path ? "#{path}/_#{action}" : "_#{action}"
     end
   end
 end

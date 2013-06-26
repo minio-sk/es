@@ -48,9 +48,9 @@ describe ES::RawClient do
 
   context '.bulk' do
     it 'sends POST to connection' do
-      connection.should_receive(:request).with(:post, 'index/_bulk', data).and_return(response)
+      connection.should_receive(:request).with(:post, '_bulk', data).and_return(response)
 
-      subject.bulk('index', data).should == response
+      subject.bulk(data).should == response
     end
   end
 
