@@ -10,7 +10,7 @@ module ES
 
     def bulk(requests, path = nil)
       serialized = requests.map do |r|
-        @dumper.dump(r) + "\n"
+        serialize(r) + "\n"
       end.join('')
 
       response = @client.bulk(serialized, path)
@@ -24,25 +24,25 @@ module ES
     end
 
     def index(path, data)
-      serialized = @dumper.dump(data)
+      serialized = serialize(data)
       response = @client.index(path, serialized)
       @dumper.load(response)
     end
 
     def search(path, data)
-      serialized = @dumper.dump(data)
+      serialized = serialize(data)
       response = @client.search(path, serialized)
       @dumper.load(response)
     end
 
     def update(path, data)
-      serialized = @dumper.dump(data)
+      serialized = serialize(data)
       response = @client.update(path, serialized)
       @dumper.load(response)
     end
 
     def create_index(path, data)
-      serialized = @dumper.dump(data)
+      serialized = serialize(data)
       response = @client.create_index(path, serialized)
       @dumper.load(response)
     end
@@ -50,6 +50,11 @@ module ES
     def delete_index(path)
       response = @client.delete_index(path)
       @dumper.load(response)
+    end
+
+    private
+    def serialize(data)
+      @dumper.dump(data, mode: :compat)
     end
   end
 end
