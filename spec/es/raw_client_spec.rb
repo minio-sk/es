@@ -44,6 +44,20 @@ describe ES::RawClient do
 
       subject.search('index', data).should == response
     end
+
+    it 'sends POST to connection with parameters' do
+      connection.should_receive(:request).with(:post, 'index/_search?scroll=5m&size=100', data).and_return(response)
+
+      subject.search('index', data, scroll: '5m', size: 100)
+    end
+  end
+
+  context '.scroll' do
+    it 'sends GET to connection with parameters' do
+      connection.should_receive(:request).with(:get, '_search/scroll?scroll=5m&scroll_id=123').and_return(response)
+
+      subject.scroll(scroll: '5m', scroll_id: 123)
+    end
   end
 
   context '.bulk' do
@@ -61,4 +75,12 @@ describe ES::RawClient do
       subject.update('index/1', data).should == response
     end
   end
+
+  context '.get_mapping' do
+    it 'sends GET to connection' do
+      connection.should_receive(:request).with(:get, 'index/_mapping').and_return(response)
+
+      subject.get_mapping('index').should == response
+    end
+end
 end

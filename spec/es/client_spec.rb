@@ -42,14 +42,32 @@ describe ES::Client do
   end
 
   it 'serializes data for .search' do
-    client.should_receive(:search).with('index/1', raw_data).and_return(raw_response)
+    client.should_receive(:search).with('index/1', raw_data, {size: 20}).and_return(raw_response)
 
-    subject.search('index/1', data).should == response
+    subject.search('index/1', data, size: 20).should == response
+  end
+
+  it 'serializes data from .scroll' do
+    client.should_receive(:scroll).with({scroll_id: 123}).and_return(raw_response)
+
+    subject.scroll(scroll_id: 123)
   end
 
   it 'serializes data for .update' do
     client.should_receive(:update).with('index/1', raw_data).and_return(raw_response)
 
     subject.update('index/1', data).should == response
+  end
+
+  it 'unserializes response for .get_mapping' do
+    client.should_receive(:get_mapping).with('index').and_return(raw_response)
+
+    subject.get_mapping('index').should == response
+  end
+
+  it 'should respond to all methods of raw client' do
+    ES::RawClient.instance_methods(false).each do |method|
+      subject.respond_to?(method).should be_true, "expected to respond to message #{method}"
+    end
   end
 end

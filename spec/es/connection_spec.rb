@@ -3,7 +3,7 @@ require 'es/connection'
 describe ES::Connection do
   let(:data) { :data }
   let(:response_body) { :response }
-  let(:response) { stub(response_code: 200, body_str: response_body) }
+  let(:response) { double(response_code: 200, body_str: response_body) }
   let(:driver) { double(:Driver) }
 
   subject { described_class.new('http://localhost:9200', driver) }
@@ -33,7 +33,7 @@ describe ES::Connection do
   end
 
   it 'throws error if response code is not 2XX' do
-    error_response = stub(response_code: 400)
+    error_response = double(response_code: 400)
     driver.should_receive(:http_post).and_return(error_response)
 
     expect { subject.request(:post, 'index/_search', data) }.to raise_error(ES::Connection::Error)

@@ -29,9 +29,14 @@ module ES
       @dumper.load(response)
     end
 
-    def search(path, data)
+    def search(path, data, params = {})
       serialized = serialize(data)
-      response = @client.search(path, serialized)
+      response = @client.search(path, serialized, params)
+      @dumper.load(response)
+    end
+
+    def scroll(params = {})
+      response = @client.scroll(params)
       @dumper.load(response)
     end
 
@@ -49,6 +54,11 @@ module ES
 
     def delete_index(path)
       response = @client.delete_index(path)
+      @dumper.load(response)
+    end
+
+    def get_mapping(path)
+      response = @client.get_mapping(path)
       @dumper.load(response)
     end
 

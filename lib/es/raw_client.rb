@@ -24,8 +24,12 @@ module ES
       @connection.request(:put, path, data)
     end
 
-    def search(path, query)
-      @connection.request(:post, action_path(path, :search), query)
+    def search(path, query, params = {})
+      @connection.request(:post, action_path(path, :search, params), query)
+    end
+
+    def scroll(params = {})
+      @connection.request(:get, action_path(nil, 'search/scroll', params))
     end
 
     def update(path, data)
@@ -36,9 +40,18 @@ module ES
       @connection.request(:post, action_path(path, :bulk), requests)
     end
 
+    def get_mapping(path)
+      @connection.request(:get, action_path(path, :mapping))
+    end
+
     private
-    def action_path(path, action)
-      path ? "#{path}/_#{action}" : "_#{action}"
+    def action_path(path, action, params = {})
+      full_path = path ? "#{path}/_#{action}" : "_#{action}"
+      params.any? ? "#{full_path}?#{serialize_params(params)}" : full_path
+    end
+
+    def serialize_params(params)
+      params.map { |k, v| "#{k}=#{v}" }.join('&')
     end
   end
 end
