@@ -10,7 +10,7 @@ module ES
 
     while results['hits']['hits'].any?
       requests = results['hits']['hits'].each_with_object([]) do |hit, requests|
-        requests << {index: {_type: hit['_type'], _id: hit['id']}}
+        requests << {index: {_type: hit['_type'], _id: hit['_id']}}
         requests << hit['_source']
       end
 
